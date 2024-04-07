@@ -1,0 +1,35 @@
+---
+apiVersion: logging-extensions.banzaicloud.io/v1alpha1
+kind: EventTailer
+metadata:
+  name: default
+spec:
+  controlNamespace: logging
+---
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: Output
+metadata:
+  name: events
+spec:
+  http:
+    endpoint: http://logging-operator-test-receiver:8080
+    content_type: application/json
+    buffer:
+      type: memory
+      tags: time
+      timekey: 1s
+      timekey_wait: 0s
+---
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: Flow
+metadata:
+  name: events
+spec:
+  filters:
+  - tag_normaliser: {}
+  match:
+  - select:
+      labels:
+        app.kubernetes.io/instance: default-event-tailer
+  localOutputRefs:
+    - events

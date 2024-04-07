@@ -1,0 +1,15 @@
+---
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: Logging
+metadata:
+  name: fluentd
+spec:
+  controlNamespace: logging
+  fluentd:
+    disablePvc: true
+---
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: FluentbitAgent
+metadata:
+    name: fluentbit
+spec: {}

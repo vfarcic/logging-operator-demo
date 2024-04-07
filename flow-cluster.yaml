@@ -1,0 +1,27 @@
+---
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: Output
+metadata:
+  name: http-cluster
+spec:
+  http:
+    endpoint: http://logging-operator-test-receiver.logging:8080
+    content_type: application/json
+    buffer:
+      type: memory
+      tags: time
+      timekey: 1s
+      timekey_wait: 0s
+---
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: ClusterFlow
+metadata:
+  name: flow-cluster
+spec:
+  match:
+    - select:
+        namespaces:
+          - kube-system
+          - logging
+  outputRefs:
+    - http-cluster
