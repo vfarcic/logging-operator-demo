@@ -1,6 +1,6 @@
 ---
 apiVersion: logging.banzaicloud.io/v1beta1
-kind: Output
+kind: ClusterOutput
 metadata:
   name: http-cluster
 spec:

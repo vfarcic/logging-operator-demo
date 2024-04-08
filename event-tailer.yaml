@@ -9,7 +9,7 @@ spec:
 apiVersion: logging.banzaicloud.io/v1beta1
 kind: Output
 metadata:
-  name: events
+  name: events-htto
 spec:
   http:
     endpoint: http://logging-operator-test-receiver:8080
@@ -19,6 +19,19 @@ spec:
       tags: time
       timekey: 1s
       timekey_wait: 0s
+---
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: Output
+metadata:
+  name: events
+spec:
+  loki:
+    url: http://loki:3100
+    configure_kubernetes_labels: true
+    buffer:
+      timekey: 1m
+      timekey_wait: 30s
+      timekey_use_utc: true
 ---
 apiVersion: logging.banzaicloud.io/v1beta1
 kind: Flow
